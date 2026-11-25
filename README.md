@@ -19,6 +19,7 @@ The preview is a static snapshot of the real pages, so the layout and animations
 - [Project structure](#project-structure)
 - [Run it locally](#run-it-locally)
 - [Tests](#tests)
+- [Deploy on PythonAnywhere](#deploy-on-pythonanywhere)
 - [Design notes](#design-notes)
 - [Known limits](#known-limits)
 - [About](#about)
@@ -171,6 +172,82 @@ python manage.py test
 
 The 43 tests cover the model fields, required-field validation, newest-first ordering, search by name and by course, grouping by course, the course picker with 60 courses, the course index, add and delete flows, the named URLs, HTML escaping of user input and CSRF protection.
 
+## Deploy on PythonAnywhere
+
+GitHub Pages can only serve the static preview. To run the real application, with search, adding and deleting, host it on a service that runs Python. [PythonAnywhere](https://www.pythonanywhere.com/) has a free plan and keeps the SQLite database between restarts, so nothing else needs to be installed.
+
+Replace `<username>` with your PythonAnywhere username everywhere below.
+
+**1. Get the code and install it.** Open a **Bash console** from the PythonAnywhere dashboard and run:
+
+```bash
+git clone https://github.com/mehmetyasinuzun/student-feedback-board.git
+cd student-feedback-board
+mkvirtualenv feedbackboard --python=/usr/bin/python3.10
+pip install -r requirements.txt
+export DJANGO_DEBUG=0
+export DJANGO_SECRET_KEY="$(python -c 'from django.core.management.utils import get_random_secret_key as k; print(k())')"
+python manage.py migrate
+python manage.py loaddata sample
+python manage.py collectstatic --noinput
+echo "$DJANGO_SECRET_KEY"
+```
+
+Copy the key printed by the last line; you need it in step 3. Keep it private.
+
+**2. Create the web app.** On the **Web** tab choose **Add a new web app**, then **Manual configuration** and **Python 3.10**. Fill in:
+
+| Setting | Value |
+|---|---|
+| Source code | `/home/<username>/student-feedback-board` |
+| Working directory | `/home/<username>/student-feedback-board` |
+| Virtualenv | `/home/<username>/.virtualenvs/feedbackboard` |
+
+**3. Point the WSGI file at the project.** On the same page open the **WSGI configuration file** link, delete everything in it and paste this, with your username and the key from step 1:
+
+```python
+import os
+import sys
+
+path = '/home/<username>/student-feedback-board'
+if path not in sys.path:
+    sys.path.insert(0, path)
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'feedbackboard.settings'
+os.environ['DJANGO_DEBUG'] = '0'
+os.environ['DJANGO_SECRET_KEY'] = 'paste-the-key-from-step-1-here'
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+```
+
+**4. Serve the stylesheet.** In the **Static files** section of the Web tab add one row:
+
+| URL | Directory |
+|---|---|
+| `/static/` | `/home/<username>/student-feedback-board/staticfiles` |
+
+**5. Force HTTPS and reload.** In the **Security** section of the Web tab switch **Force HTTPS** on, press the green **Reload** button and open `https://<username>.pythonanywhere.com/`.
+
+To publish later changes, run this in a Bash console and press **Reload** again:
+
+```bash
+cd ~/student-feedback-board && workon feedbackboard
+git pull
+DJANGO_DEBUG=0 DJANGO_SECRET_KEY=unused-for-these-commands python manage.py migrate
+DJANGO_DEBUG=0 DJANGO_SECRET_KEY=unused-for-these-commands python manage.py collectstatic --noinput
+```
+
+A public copy has no accounts, so any visitor can add or delete feedback. To restore the sample entries, run `python manage.py flush --noinput` followed by `python manage.py loaddata sample` in the console.
+
+### Settings read from the environment
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `DJANGO_DEBUG` | `1` | Set to `0` on a public server. With `0` the app refuses to start unless `DJANGO_SECRET_KEY` is set. |
+| `DJANGO_SECRET_KEY` | development placeholder | Signs sessions and CSRF tokens. Use a private random value in production. |
+| `DJANGO_ALLOWED_HOSTS` | `localhost,127.0.0.1,.pythonanywhere.com` | Comma-separated hosts the app answers for. |
+
 ## Design notes
 
 - **Pinned index cards.** The board is dotted paper, each card hangs from a pin with a slight tilt, and straightens and lifts when you point at it.
@@ -184,7 +261,7 @@ The 43 tests cover the model fields, required-field validation, newest-first ord
 - **Delete is a plain GET link** with no confirmation. That is what the assignment asks for; a real product would use a POST form and ask first.
 - **Search and non-ASCII letters.** On SQLite, `icontains` ignores case for ASCII letters only, so letters such as Ç, Ğ, İ, Ö, Ş, Ü are matched case-sensitively.
 - **No accounts.** Anyone can add or delete feedback.
-- **Development settings.** `DEBUG` is on and the secret key falls back to a placeholder. Set `DJANGO_SECRET_KEY` and turn `DEBUG` off before deploying anywhere.
+- **Development defaults.** Locally `DEBUG` is on and the secret key is a placeholder. A public server must set `DJANGO_DEBUG=0` and its own `DJANGO_SECRET_KEY`, as described in [Deploy on PythonAnywhere](#deploy-on-pythonanywhere).
 
 ## About
 
