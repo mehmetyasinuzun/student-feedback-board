@@ -193,6 +193,38 @@ class CourseSuggestionTests(TestCase):
         self.assertContains(response, 'type="radio"', count=3)
         self.assertContains(response, '<datalist id="course-options">')
 
+    def test_crowded_board_offers_only_popular_courses(self):
+        for number in range(60):
+            make_feedback('Student', f'Course {number:02d}')
+        make_feedback('Fan', 'Course 30')
+        make_feedback('Fan', 'Course 30')
+        response = self.client.get(reverse('feedback_add'))
+        form = response.context['form']
+        choices = [value for value, label in form.fields['existing_course'].choices]
+        self.assertEqual(len(choices), 7)
+        self.assertEqual(choices[1], 'Course 30')
+        self.assertEqual(len(response.context['courses']), 60)
+        self.assertContains(response, 'type="radio"', count=7)
+        self.assertContains(response, '<option value=', count=60)
+        self.assertContains(response, 'search all 60 courses')
+
+    def test_less_popular_course_is_prefilled_as_text(self):
+        for number in range(10):
+            make_feedback('Student', f'Course {number:02d}', age_minutes=number)
+        form = self.client.get(reverse('feedback_add'), {'course': 'course 09'}).context['form']
+        self.assertEqual(form['course'].value(), 'Course 09')
+        self.assertFalse(form['existing_course'].value())
+
+    def test_board_gets_a_course_index_when_there_are_many_courses(self):
+        for number in range(3):
+            make_feedback('Student', f'Course {number}')
+        self.assertNotContains(self.client.get(reverse('feedback_list')), 'class="course-index"')
+        make_feedback('Student', 'Course 3')
+        response = self.client.get(reverse('feedback_list'))
+        self.assertContains(response, 'class="course-index"')
+        self.assertContains(response, 'href="#course-4"')
+        self.assertContains(response, 'id="course-4"')
+
     def test_plain_get_is_an_empty_form(self):
         make_feedback('Elif', 'Web Programming')
         form = self.client.get(reverse('feedback_add')).context['form']

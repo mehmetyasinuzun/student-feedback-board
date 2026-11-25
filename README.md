@@ -6,11 +6,11 @@ A small Django application where students leave feedback about their courses and
 
 The preview is a static snapshot of the real pages, so the layout and animations are the real thing, but searching, adding and deleting need the Django server. See [Run it locally](#run-it-locally).
 
-![The board with feedback grouped by course](docs/screenshots/board.jpg)
+![The board with feedback grouped by course](docs/screenshots/board.png)
 
 | Add form | Mobile |
 |---|---|
-| ![Add form with the course picker](docs/screenshots/add-form.jpg) | ![Board on a phone-sized screen](docs/screenshots/mobile.jpg) |
+| <img src="docs/screenshots/add-form.png" alt="Add form with the course picker" width="560"> | <img src="docs/screenshots/mobile.png" alt="Board on a phone-sized screen" width="260"> |
 
 ## Contents
 
@@ -29,7 +29,8 @@ The preview is a static snapshot of the real pages, so the layout and animations
 - **Board of cards**, newest first. Each card shows the name, course, message, date and a Delete link.
 - **Grouped by course.** Feedback for the same course sits side by side under one heading and shares one colour. Course names are compared without regard to case or extra spaces.
 - **Search** with `?q=` over name or course, case-insensitive. The query stays in the search box.
-- **Course picker without scripts.** The add form offers the courses already on the board as a radio group: Tab moves into it and the arrow keys pick a course at once. A new course can still be typed.
+- **Course picker without scripts.** The add form offers courses as a radio group: Tab moves into it and the arrow keys pick a course at once. A new course can still be typed.
+- **Built for a long course list.** The picker never shows more than the six most popular courses; every other course is found by typing in the course field, which filters a native suggestion list. On the board, a scrollable course index with note counts jumps straight to any course and highlights its heading on arrival.
 - **One spelling per course.** A course typed as `web  programming` is saved as the existing `Web Programming`.
 - **Responsive** from 320 px phones to wide desktops, with no horizontal scrolling.
 - **CSS-only motion:** cards drop onto the board one after another, the title gets a highlighter swipe, buttons fill with colour, errors shake, and notices dismiss themselves. All of it is switched off for people who prefer reduced motion.
@@ -128,7 +129,7 @@ student-feedback-board/
 │   ├── forms.py                FeedbackForm (ModelForm) and the course picker
 │   ├── views.py                feedback_list, feedback_add, feedback_delete
 │   ├── urls.py                 the three named routes
-│   ├── tests.py                40 tests
+│   ├── tests.py                43 tests
 │   ├── fixtures/sample.json    six sample entries
 │   ├── migrations/
 │   └── templates/feedback/
@@ -168,7 +169,7 @@ Open http://127.0.0.1:8000/. The `loaddata` step is optional; it fills the board
 python manage.py test
 ```
 
-The 40 tests cover the model fields, required-field validation, newest-first ordering, search by name and by course, grouping by course, the course picker, add and delete flows, the named URLs, HTML escaping of user input and CSRF protection.
+The 43 tests cover the model fields, required-field validation, newest-first ordering, search by name and by course, grouping by course, the course picker with 60 courses, the course index, add and delete flows, the named URLs, HTML escaping of user input and CSRF protection.
 
 ## Design notes
 

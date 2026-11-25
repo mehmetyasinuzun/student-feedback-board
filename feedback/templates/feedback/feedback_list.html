@@ -18,9 +18,20 @@
 {% endif %}
 
 {% if feedbacks %}
+{% if course_groups|length > 3 %}
+<nav class="course-index" aria-label="Jump to a course">
+    <span class="index-label">{{ course_groups|length }} courses</span>
+    <ul class="index-list">
+        {% for group in course_groups %}
+        <li><a href="#course-{{ forloop.counter }}">{{ group.course }}<span class="index-count">{{ group.entries|length }}</span></a></li>
+        {% endfor %}
+    </ul>
+</nav>
+{% endif %}
+
 <div class="board">
     {% for group in course_groups %}
-    <section class="course-group {% cycle 'tone-red' 'tone-teal' 'tone-blue' 'tone-amber' 'tone-plum' %}">
+    <section class="course-group {% cycle 'tone-red' 'tone-teal' 'tone-blue' 'tone-amber' 'tone-plum' %}" id="course-{{ forloop.counter }}">
         <header class="group-head">
             <h2 class="group-title">{{ group.course }}</h2>
             <span class="group-count">{{ group.entries|length }} note{{ group.entries|length|pluralize }}</span>

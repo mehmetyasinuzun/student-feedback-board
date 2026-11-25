@@ -20,3 +20,14 @@ def existing_courses():
     for course in Feedback.objects.order_by('-created_at', '-pk').values_list('course', flat=True):
         courses.setdefault(course_key(course), course)
     return list(courses.values())
+
+
+def popular_courses(limit):
+    names = {}
+    counts = {}
+    for course in Feedback.objects.order_by('-created_at', '-pk').values_list('course', flat=True):
+        key = course_key(course)
+        names.setdefault(key, course)
+        counts[key] = counts.get(key, 0) + 1
+    ranked = sorted(names, key=lambda key: -counts[key])
+    return [names[key] for key in ranked[:limit]]

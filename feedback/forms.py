@@ -1,6 +1,8 @@
 from django import forms
 
-from .models import Feedback, course_key, existing_courses
+from .models import Feedback, course_key, existing_courses, popular_courses
+
+PICKER_LIMIT = 6
 
 
 class FeedbackForm(forms.ModelForm):
@@ -21,14 +23,21 @@ class FeedbackForm(forms.ModelForm):
         if not self.courses:
             del self.fields['existing_course']
             return
-        self.fields['existing_course'].choices = [('', 'A new course')] + [(course, course) for course in self.courses]
-        self.fields['course'].label = 'Or type a new course'
+        picks = popular_courses(PICKER_LIMIT)
+        crowded = len(self.courses) > len(picks)
+        self.fields['existing_course'].choices = [('', 'Another course' if crowded else 'A new course')] + [(course, course) for course in picks]
         self.fields['course'].required = False
+        if crowded:
+            self.fields['existing_course'].label = 'Popular courses'
+            self.fields['course'].label = 'Or find your course'
+            self.fields['course'].help_text = f'Start typing to search all {len(self.courses)} courses on the board, or enter a new one.'
+        else:
+            self.fields['course'].label = 'Or type a new course'
         wanted = course_key(self.initial.get('course') or '')
         for course in self.courses:
             if wanted and course_key(course) == wanted:
-                self.initial['existing_course'] = course
-                self.initial['course'] = ''
+                self.initial['existing_course'] = course if course in picks else ''
+                self.initial['course'] = '' if course in picks else course
 
     def clean_course(self):
         course = ' '.join(self.cleaned_data['course'].split())

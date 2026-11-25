@@ -33,7 +33,8 @@ def feedback_add(request):
     else:
         course = request.GET.get('course', '').replace('\x00', '').strip()[:100]
         form = FeedbackForm(initial={'course': course} if course else None)
-    return render(request, 'feedback/feedback_add.html', {'form': form, 'courses': existing_courses()})
+    courses = sorted(existing_courses(), key=str.casefold)
+    return render(request, 'feedback/feedback_add.html', {'form': form, 'courses': courses})
 
 
 @require_http_methods(['GET', 'POST'])
