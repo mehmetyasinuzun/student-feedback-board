@@ -1,0 +1,15 @@
+.demo-note {
+    margin: 0 0 26px;
+    padding: 10px 16px;
+    border: 1.5px dashed var(--field);
+    border-radius: 10px;
+    background-color: #fbf7ee;
+    color: var(--ink-soft);
+    font-size: .9rem;
+}
+
+.demo-note a {
+    color: var(--red-deep);
+    font-weight: 600;
+    text-underline-offset: 3px;
+}

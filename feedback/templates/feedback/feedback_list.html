@@ -1,0 +1,63 @@
+{% extends 'feedback/base.html' %}
+
+{% block content %}
+<section class="toolbar" aria-label="Board tools">
+    <form class="search" method="get" action="{% url 'feedback_list' %}" role="search">
+        <label class="visually-hidden" for="q">Search by name or course</label>
+        <input type="search" id="q" name="q" value="{{ query }}" placeholder="Search by name or course" maxlength="100">
+        <button type="submit" class="btn btn-ghost">Search</button>
+    </form>
+    <a class="btn btn-primary btn-add" href="{% url 'feedback_add' %}">Add Feedback</a>
+</section>
+
+{% if query %}
+<p class="result-note">
+    {{ feedbacks|length }} result{{ feedbacks|length|pluralize }} for <q>{{ query }}</q>
+    <a href="{% url 'feedback_list' %}">Clear search</a>
+</p>
+{% endif %}
+
+{% if feedbacks %}
+<div class="board">
+    {% for group in course_groups %}
+    <section class="course-group {% cycle 'tone-red' 'tone-teal' 'tone-blue' 'tone-amber' 'tone-plum' %}">
+        <header class="group-head">
+            <h2 class="group-title">{{ group.course }}</h2>
+            <span class="group-count">{{ group.entries|length }} note{{ group.entries|length|pluralize }}</span>
+            <a class="group-add" href="{% url 'feedback_add' %}?course={{ group.course|urlencode:'' }}" aria-label="Add feedback for {{ group.course }}">Add here</a>
+        </header>
+        <div class="group-cards">
+            {% for feedback in group.entries %}
+            <article class="card">
+                <header class="card-head">
+                    <span class="avatar" aria-hidden="true">{{ feedback.name|first|upper }}</span>
+                    <div class="card-who">
+                        <h3 class="card-name">{{ feedback.name }}</h3>
+                        <span class="card-course">{{ feedback.course }}</span>
+                    </div>
+                </header>
+                <p class="card-message">{{ feedback.message|linebreaksbr }}</p>
+                <footer class="card-foot">
+                    <time datetime="{{ feedback.created_at|date:'c' }}">{{ feedback.created_at|date:"M j, Y · H:i" }}</time>
+                    <a class="delete-link" href="{% url 'feedback_delete' feedback.pk %}">Delete</a>
+                </footer>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty">
+    <div class="empty-note" aria-hidden="true"><span></span><span></span><span></span></div>
+    <p class="empty-title">No feedback yet.</p>
+    {% if query %}
+    <p class="empty-text">Nothing on the board matches that name or course.</p>
+    <a class="btn btn-ghost" href="{% url 'feedback_list' %}">Show all feedback</a>
+    {% else %}
+    <p class="empty-text">The board is waiting for its first note. Make it yours.</p>
+    <a class="btn btn-primary btn-add" href="{% url 'feedback_add' %}">Add Feedback</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

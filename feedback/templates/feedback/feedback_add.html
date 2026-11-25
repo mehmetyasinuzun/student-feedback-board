@@ -1,0 +1,24 @@
+{% extends 'feedback/base.html' %}
+
+{% block title %}Add Feedback · Student Feedback Board{% endblock %}
+
+{% block content %}
+<section class="sheet">
+    <h2 class="sheet-title">Add Feedback</h2>
+    <p class="sheet-lead">Be specific, be kind, be useful.</p>
+
+    <form method="post" action="{% url 'feedback_add' %}" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <datalist id="course-options">
+            {% for course in courses %}
+            <option value="{{ course }}"></option>
+            {% endfor %}
+        </datalist>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            <a class="back-link" href="{% url 'feedback_list' %}"><span aria-hidden="true">&larr;</span> Back to list</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

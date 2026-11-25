@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Mehmet Yasin UZUN">
+    <title>Add Feedback · Student Feedback Board</title>
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/demo.css">
+</head>
+<body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="index.html">
+                <h1><span class="mark">Student Feedback Board</span></h1>
+            </a>
+            <p class="tagline">Honest notes about your courses, pinned where everyone can read them.</p>
+        </div>
+    </header>
+
+    
+
+    <div class="container" id="demo-note"><p class="demo-note">Static preview of a Django app. Search, adding and deleting need the real server. <a href="https://github.com/mehmetyasinuzun/student-feedback-board">Source and setup on GitHub</a></p></div>
+
+    <main class="container" id="content">
+        
+<section class="sheet">
+    <h2 class="sheet-title">Add Feedback</h2>
+    <p class="sheet-lead">Be specific, be kind, be useful.</p>
+
+    <form method="get" action="index.html">
+        
+        <p>
+    <label for="id_name">Name:</label>
+    <input type="text" name="name" placeholder="e.g. Elif Kaya" autocomplete="name" autofocus maxlength="100" required id="id_name">
+    
+    
+  </p>
+
+  
+  <p>
+    <label>Pick your course:</label>
+    <div id="id_existing_course"><div>
+    <label for="id_existing_course_0"><input type="radio" name="existing_course" value="" id="id_existing_course_0" checked>
+ A new course</label>
+
+</div><div>
+    <label for="id_existing_course_1"><input type="radio" name="existing_course" value="Web Programming" id="id_existing_course_1">
+ Web Programming</label>
+
+</div><div>
+    <label for="id_existing_course_2"><input type="radio" name="existing_course" value="Physics II" id="id_existing_course_2">
+ Physics II</label>
+
+</div><div>
+    <label for="id_existing_course_3"><input type="radio" name="existing_course" value="Academic English" id="id_existing_course_3">
+ Academic English</label>
+
+</div><div>
+    <label for="id_existing_course_4"><input type="radio" name="existing_course" value="Linear Algebra" id="id_existing_course_4">
+ Linear Algebra</label>
+
+</div><div>
+    <label for="id_existing_course_5"><input type="radio" name="existing_course" value="Data Structures" id="id_existing_course_5">
+ Data Structures</label>
+
+</div>
+</div>
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_course">Or type a new course:</label>
+    <input type="text" name="course" placeholder="e.g. Web Programming" list="course-options" autocomplete="off" maxlength="100" id="id_course">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_message">Message:</label>
+    <textarea name="message" cols="40" rows="6" placeholder="What worked, what did not, what would you change?" required id="id_message">
+</textarea>
+    
+    
+      
+    
+  </p>
+        <datalist id="course-options">
+            
+            <option value="Web Programming"></option>
+            
+            <option value="Physics II"></option>
+            
+            <option value="Academic English"></option>
+            
+            <option value="Linear Algebra"></option>
+            
+            <option value="Data Structures"></option>
+            
+        </datalist>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            <a class="back-link" href="index.html"><span aria-hidden="true">&larr;</span> Back to list</a>
+        </div>
+    </form>
+</section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <span>Mehmet Yasin UZUN &middot; CNG 361 Web Programming</span>
+            <span>Django &middot; HTML &middot; CSS</span>
+        </div>
+    </footer>
+</body>
+</html>

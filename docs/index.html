@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Mehmet Yasin UZUN">
+    <title>Student Feedback Board</title>
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/demo.css">
+</head>
+<body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="index.html">
+                <h1><span class="mark">Student Feedback Board</span></h1>
+            </a>
+            <p class="tagline">Honest notes about your courses, pinned where everyone can read them.</p>
+        </div>
+    </header>
+
+    
+
+    <div class="container" id="demo-note"><p class="demo-note">Static preview of a Django app. Search, adding and deleting need the real server. <a href="https://github.com/mehmetyasinuzun/student-feedback-board">Source and setup on GitHub</a></p></div>
+
+    <main class="container" id="content">
+        
+<section class="toolbar" aria-label="Board tools">
+    <form class="search" method="get" action="search.html" role="search">
+        <label class="visually-hidden" for="q">Search by name or course</label>
+        <input type="search" id="q" name="q" value="" placeholder="Search by name or course" maxlength="100">
+        <button type="submit" class="btn btn-ghost">Search</button>
+    </form>
+    <a class="btn btn-primary btn-add" href="add.html">Add Feedback</a>
+</section>
+
+
+
+
+<div class="board">
+    
+    <section class="course-group tone-red">
+        <header class="group-head">
+            <h2 class="group-title">Web Programming</h2>
+            <span class="group-count">2 notes</span>
+            <a class="group-add" href="add-web-programming.html" aria-label="Add feedback for Web Programming">Add here</a>
+        </header>
+        <div class="group-cards">
+            
+            <article class="card">
+                <header class="card-head">
+                    <span class="avatar" aria-hidden="true">C</span>
+                    <div class="card-who">
+                        <h3 class="card-name">Can Yilmaz</h3>
+                        <span class="card-course">Web Programming</span>
+                    </div>
+                </header>
+                <p class="card-message">CSS week was the most fun I have had in a lab.</p>
+                <footer class="card-foot">
+                    <time datetime="2026-11-25T13:30:00+03:00">Nov 25, 2026 · 13:30</time>
+                    <a class="delete-link" href="#demo-note">Delete</a>
+                </footer>
+            </article>
+            
+            <article class="card">
+                <header class="card-head">
+                    <span class="avatar" aria-hidden="true">E</span>
+                    <div class="card-who">
+                        <h3 class="card-name">Elif Kaya</h3>
+                        <span class="card-course">Web Programming</span>
+                    </div>
+                </header>
+                <p class="card-message">The Django labs finally made MVC click for me.<br>More time on forms would be great.</p>
+                <footer class="card-foot">
+                    <time datetime="2026-11-25T09:05:00+03:00">Nov 25, 2026 · 09:05</time>
+                    <a class="delete-link" href="#demo-note">Delete</a>
+                </footer>
+            </article>
+            
+        </div>
+    </section>
+    
+    <section class="course-group tone-teal">
+        <header class="group-head">
+            <h2 class="group-title">Physics II</h2>
+            <span class="group-count">1 note</span>
+            <a class="group-add" href="add-physics-ii.html" aria-label="Add feedback for Physics II">Add here</a>
+        </header>
+        <div class="group-cards">
+            
+            <article class="card">
+                <header class="card-head">
+                    <span class="avatar" aria-hidden="true">A</span>
+                    <div class="card-who">
+                        <h3 class="card-name">Ayse Nur Celik</h3>
+                        <span class="card-course">Physics II</span>
+                    </div>
+                </header>
+                <p class="card-message">Lab equipment is old but the assistants are patient and really helpful.</p>
+                <footer class="card-foot">
+                    <time datetime="2026-11-25T12:10:00+03:00">Nov 25, 2026 · 12:10</time>
+                    <a class="delete-link" href="#demo-note">Delete</a>
+                </footer>
+            </article>
+            
+        </div>
+    </section>
+    
+    <section class="course-group tone-blue">
+        <header class="group-head">
+            <h2 class="group-title">Academic English</h2>
+            <span class="group-count">1 note</span>
+            <a class="group-add" href="add-academic-english.html" aria-label="Add feedback for Academic English">Add here</a>
+        </header>
+        <div class="group-cards">
+            
+            <article class="card">
+                <header class="card-head">
+                    <span class="avatar" aria-hidden="true">B</span>
+                    <div class="card-who">
+                        <h3 class="card-name">Baris Ozturk</h3>
+                        <span class="card-course">Academic English</span>
+                    </div>
+                </header>
+                <p class="card-message">Peer review sessions were surprisingly useful.</p>
+                <footer class="card-foot">
+                    <time datetime="2026-11-25T11:20:00+03:00">Nov 25, 2026 · 11:20</time>
+                    <a class="delete-link" href="#demo-note">Delete</a>
+                </footer>
+            </article>
+            
+        </div>
+    </section>
+    
+    <section class="course-group tone-amber">
+        <header class="group-head">
+            <h2 class="group-title">Linear Algebra</h2>
+            <span class="group-count">1 note</span>
+            <a class="group-add" href="add-linear-algebra.html" aria-label="Add feedback for Linear Algebra">Add here</a>
+        </header>
+        <div class="group-cards">
+            
+            <article class="card">
+                <header class="card-head">
+                    <span class="avatar" aria-hidden="true">Z</span>
+                    <div class="card-who">
+                        <h3 class="card-name">Zeynep Arslan</h3>
+                        <span class="card-course">Linear Algebra</span>
+                    </div>
+                </header>
+                <p class="card-message">Lecture notes are clear, but the problem sets need worked solutions before the exam.</p>
+                <footer class="card-foot">
+                    <time datetime="2026-11-25T10:15:00+03:00">Nov 25, 2026 · 10:15</time>
+                    <a class="delete-link" href="#demo-note">Delete</a>
+                </footer>
+            </article>
+            
+        </div>
+    </section>
+    
+    <section class="course-group tone-plum">
+        <header class="group-head">
+            <h2 class="group-title">Data Structures</h2>
+            <span class="group-count">1 note</span>
+            <a class="group-add" href="add-data-structures.html" aria-label="Add feedback for Data Structures">Add here</a>
+        </header>
+        <div class="group-cards">
+            
+            <article class="card">
+                <header class="card-head">
+                    <span class="avatar" aria-hidden="true">M</span>
+                    <div class="card-who">
+                        <h3 class="card-name">Mert Demir</h3>
+                        <span class="card-course">Data Structures</span>
+                    </div>
+                </header>
+                <p class="card-message">Great pace. The weekly quizzes keep me honest.</p>
+                <footer class="card-foot">
+                    <time datetime="2026-11-25T09:40:00+03:00">Nov 25, 2026 · 09:40</time>
+                    <a class="delete-link" href="#demo-note">Delete</a>
+                </footer>
+            </article>
+            
+        </div>
+    </section>
+    
+</div>
+
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <span>Mehmet Yasin UZUN &middot; CNG 361 Web Programming</span>
+            <span>Django &middot; HTML &middot; CSS</span>
+        </div>
+    </footer>
+</body>
+</html>

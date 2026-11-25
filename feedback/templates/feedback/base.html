@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Mehmet Yasin UZUN">
+    <title>{% block title %}Student Feedback Board{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <a class="skip-link" href="#content">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="{% url 'feedback_list' %}">
+                <h1><span class="mark">Student Feedback Board</span></h1>
+            </a>
+            <p class="tagline">Honest notes about your courses, pinned where everyone can read them.</p>
+        </div>
+    </header>
+
+    {% if messages %}
+    <div class="toasts" role="status">
+        {% for message in messages %}
+        <p class="toast toast-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="container" id="content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <span>Mehmet Yasin UZUN &middot; CNG 361 Web Programming</span>
+            <span>Django &middot; HTML &middot; CSS</span>
+        </div>
+    </footer>
+</body>
+</html>
